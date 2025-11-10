@@ -21,7 +21,7 @@ export class ApiClient {
       : "";
 
     const url = `${this.BASE}${path}${query ? "?" + query : ""}`;
-    console.log(opts.preview);
+
     const next: RequestInit["next"] = {};
     if (opts.tag) next.tags = [opts.tag];
 

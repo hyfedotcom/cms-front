@@ -24,8 +24,8 @@ export class GetPrivacyPolicy {
   async fetch(): Promise<PrivacyPolicy> {
     if (!this.promise) {
       const params = {
-        "fiters[site][slug][$eq]": this.siteSlug,
-        "fiters[slug][$eq]": this.pageSlug,
+        "filters[site][slug][$eq]": this.siteSlug,
+        "filters[slug][$eq]": this.pageSlug,
         "populate[dynamic_zone][on][global.section-rich-text][populate]": "*",
       };
 
@@ -33,12 +33,13 @@ export class GetPrivacyPolicy {
         const res = await this.client.get<StrapiListResponse<PrivacyPolicy>>(
           "/api/pages",
           params,
-          { tag: `global-${this.siteSlug}` }
+          { tag: `page-${this.siteSlug}/${this.pageSlug}` }
         );
-  
+        console.log(res.data[0]);
         return res.data[0];
       })();
     }
+
     return this.promise;
   }
 
@@ -47,7 +48,7 @@ export class GetPrivacyPolicy {
     const privacy_policy = data.dynamic_zone.find(
       (p) => p.__component === "global.section-rich-text"
     );
-
+    console.log(privacy_policy);
     return {
       heading: privacy_policy?.heading,
       content: privacy_policy?.content,
