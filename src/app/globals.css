@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #019c8a;
+  --color-activ: #018072;
+  --color-text: #47505f;
+  --color-white: #fff;
+  --color-black: #2e3542;
+  --color-gray-50: #f7f7f9;
+  --color-gray-100: #e7e8eb;
+  --color-gray-200: #d5d7dd;
+  --color-gray-300: #b9bcc5;
+  --color-gray-400: #a1a5b1;
+  --color-gray-500: #8a909d;
+  --color-brand: #01809c;
+  --color-brand-light: #12d7be;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--color-white);
+  color: var(--color-text);
+  font-family: Inter, Helvetica, sans-serif;
+}
+
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand-light;
+}
+
+.border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(to right, #01809c, #12d7be) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.container {
+  @apply max-w-[1520px] w-full mx-auto px-4 md:px-10 py-[100px] md:py-[140px];
+}
+
+.h2-default {
+  @apply text-[28px] leading-[38px] md:text-[40px] md:leading-[52px] font-medium;
+}
+
+.h2-large {
+  @apply text-[34px] leading-[42px] md:text-[60px] md:leading-[72px] font-medium;
+}
+
+h4 {
+  @apply text-[24px] leading-[32px];
+}
+
+.h3-default {
+  @apply text-[28px] leading-[36px] md:text-[32px] md:leading-[40px];
+}
+
+.body-medium {
+  @apply text-[18px] leading-[26px];
+}
+
+.body-large {
+  @apply md:text-[20px] leading-[28px];
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

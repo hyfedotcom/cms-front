@@ -1,0 +1,1 @@
+export type StrapiListResponse<T> = { data: T[] };
