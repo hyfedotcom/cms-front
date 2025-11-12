@@ -10,7 +10,7 @@ export type PrivacyPolicy = {
 export type DynamicZone = PrivacyPolicyRaw;
 
 export interface PrivacyPolicyRaw extends PrivacyPolicyData {
-  __component: "global.section-rich-text";
+  __component: "global.section-rich-text-block";
 }
 
 export class GetPrivacyPolicy {
@@ -26,7 +26,8 @@ export class GetPrivacyPolicy {
       const params = {
         "filters[site][slug][$eq]": this.siteSlug,
         "filters[slug][$eq]": this.pageSlug,
-        "populate[dynamic_zone][on][global.section-rich-text][populate]": "*",
+        "populate[dynamic_zone][on][global.section-rich-text-block][populate]":
+          "*",
       };
 
       this.promise = (async () => {
@@ -46,12 +47,11 @@ export class GetPrivacyPolicy {
   async privacyPolicy(): Promise<PrivacyPolicyData> {
     const data = await this.fetch();
     const privacy_policy = data.dynamic_zone.find(
-      (p) => p.__component === "global.section-rich-text"
+      (p) => p.__component === "global.section-rich-text-block"
     );
-    console.log(privacy_policy);
+
     return {
-      heading: privacy_policy?.heading,
-      content: privacy_policy?.content,
+      rich_text_block: privacy_policy?.rich_text_block,
     };
   }
 }

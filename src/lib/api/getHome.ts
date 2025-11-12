@@ -350,10 +350,11 @@ export class GetHomePages {
     );
 
     return {
-      media:
-        gallery?.media
-          .map((e) => normalizeImage(e))
-          .filter((img): img is Media => Boolean(img)) ?? [],
+      media: gallery?.media
+        ? gallery?.media
+            .map((e) => normalizeImage(e))
+            .filter((img): img is Media => Boolean(img)) ?? []
+        : [],
     };
   }
 

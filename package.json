@@ -10,7 +10,9 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@strapi/blocks-react-renderer": "^1.0.2",
     "@studio-freight/lenis": "^1.0.42",
+    "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^1.5.0",
     "@vercel/blob": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",

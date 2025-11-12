@@ -8,6 +8,7 @@ import { useScreenSize } from "src/hooks/useScreenSize";
 import { HeaderData } from "src/lib/types/sections/header";
 import { SocialMediaRender } from "../ui/SocialMediaRender";
 import { GeneralSettingData } from "src/lib/types/sections/generalSettingData";
+import { usePathname } from "next/navigation";
 
 export function Header({
   data,
@@ -21,6 +22,7 @@ export function Header({
   const [open, setOpen] = useState(false);
   const [isTop, setIsTop] = useState(true);
   const { width } = useScreenSize();
+  const path = usePathname();
 
   useEffect(() => {
     if (width <= 767) return;
@@ -55,13 +57,13 @@ export function Header({
         {nav_links && nav_links.length > 0 && (
           <nav
             className={`hidden lg:flex space-x-8 ${
-              isTop ? "text-white" : "text-gray-800"
+              isTop && path === "/" ? "text-white" : "text-gray-800"
             }  font-medium`}
           >
             {nav_links.map((l, index) => (
               <a
                 key={index}
-                href={l.link}
+                href={`/${l.link}`}
                 className="hover:text-primary transition-colors"
               >
                 {l.label}
@@ -76,7 +78,9 @@ export function Header({
           <a
             href={cta.link}
             className={`hidden lg:inline-block ${
-              isTop ? "bg-white text-primary" : "bg-primary text-white"
+              isTop && path === "/"
+                ? "bg-white text-primary"
+                : "bg-primary text-white"
             }  px-6 py-3 text-[20px] rounded-full font-bold uppercase hover:opacity-85 transition`}
           >
             {cta.label}
@@ -124,7 +128,7 @@ export function Header({
                 nav_links.map((l, index) => (
                   <Link
                     key={index}
-                    href={l.link}
+                    href={`/${l.link}`}
                     onClick={() => setOpen(false)}
                     className="hover:text-primary transition-colors"
                   >

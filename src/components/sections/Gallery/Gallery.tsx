@@ -15,7 +15,7 @@ const POSITION = [
     cols: "col-span-2",
     rows: "row-span-4 md:row-span-2",
   },
-  { src: "/gallery/3.png", cols: "col-span-1", rows: "row-span-3" },
+  { cols: "col-span-1", rows: "row-span-3" },
   {
     cols: "col-span-1",
     rows: "row-span-5 md:row-span-1",
@@ -42,7 +42,7 @@ export function Gallery({ data }: { data: GalleryData }) {
     const pos = POSITION[index];
     return { src: ele.url, ...pos };
   });
-
+  console.log(images);
   return (
     <section className="bg-white relative px-4 md:px-10 py-[100px] md:py-[140px]">
       <motion.div

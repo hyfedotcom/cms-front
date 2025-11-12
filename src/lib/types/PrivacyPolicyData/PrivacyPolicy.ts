@@ -1,4 +1,3 @@
 export interface PrivacyPolicyData {
-  heading?: string;
-  content?: string;
+  rich_text_block?: string;
 }
