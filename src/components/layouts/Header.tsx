@@ -77,6 +77,8 @@ export function Header({
         {cta && (
           <a
             href={cta.link}
+            target="_blank"
+            rel="noopener noreferrer"
             className={`hidden lg:inline-block ${
               isTop && path === "/"
                 ? "bg-white text-primary"
