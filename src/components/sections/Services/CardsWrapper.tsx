@@ -122,10 +122,10 @@ export default function CardsWrapper({ card }: { card: CardServices[] }) {
                   </span>
                   <span
                     className={clsx(
-                      "hidden md:block cursor-pointer transition-color transition-font duration-150 text-balance w-full",
+                      "hidden md:block cursor-pointer transition-color transition-font duration-150 text-balance w-full ",
                       active === i
                         ? "text-activ font-bold "
-                        : "md:text-gray-500 font-normal"
+                        : "md:text-gray-500 font-normal hover:font-semibold"
                     )}
                   >
                     {c.heading}

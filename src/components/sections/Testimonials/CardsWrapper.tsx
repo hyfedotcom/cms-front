@@ -46,7 +46,7 @@ export function CardsWrapper({ data }: { data: TestimonialCard[] }) {
           {data.map((card, index) => (
             <div
               key={index}
-              className="card-item flex-shrink-0 w-[85%] sm:w-1/2 lg:w-[32%] "
+              className="card-item flex-shrink-0 w-[85%] sm:w-[42%] lg:w-[32%] "
             >
               <Card testimonial={card} />
             </div>

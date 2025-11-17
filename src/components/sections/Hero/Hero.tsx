@@ -16,8 +16,8 @@ export function Hero({ data, isDraft }: { data: HeroData; isDraft: boolean }) {
       <div className="relative  z-2 w-full h-full mx-auto  max-w-[1440px] text-center">
         <AnimatedText className="w-full h-full flex flex-col items-center justify-center mx-auto">
           {sub_heading && (
-            <div className="w-max mx-auto rounded-full border border-white/30 bg-white/10 backdrop-blur-lg shadow-[0_1px_4px_0_rgba(0,0,0,1)]]">
-              <p className="px-6 py-4 max-[360px]:text-[14px] text-[16px] md:text-[20px] tracking-[0.8px] font-semibold  max-[360px]:leading-5 max-[500px]:leading-6 lg:leading-5 text-white uppercase">
+            <div className="w-max mx-auto rounded-full border border-white/0 bg-white/20 backdrop-blur-lg shadow-[0_1px_4px_0_rgba(0,0,0,1)]]">
+              <p className="px-6 py-4 max-[360px]:text-[14px]  md:text-[16px] tracking-[0.8px] font-bold  max-[360px]:leading-4 max-[500px]:leading-4 lg:leading-4 text-white uppercase">
                 {sub_heading}
               </p>
             </div>

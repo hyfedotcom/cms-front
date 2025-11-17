@@ -20,7 +20,7 @@ export function Card({
     >
       <div className="w-full md:w-1/2 px-5 md:px-10 py-10">
         {sub_heading && (
-          <p className="max-[768px]:mb-1 max-[768px]:!text-[14px]">
+          <p className="max-[768px]:mb-1 max-[768px]:!text-[14px] font-medium! text-gray-600">
             {sub_heading}
           </p>
         )}
