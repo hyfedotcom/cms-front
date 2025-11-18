@@ -14,16 +14,16 @@ export function Hero({ data, isDraft }: { data: HeroData; isDraft: boolean }) {
   return (
     <main id="hero" className="fixed inset-0 px-4 z-0">
       <div className="relative  z-2 w-full h-full mx-auto  max-w-[1440px] text-center">
-        <AnimatedText className="w-full h-full flex flex-col items-center justify-center mx-auto">
+        <AnimatedText className="w-[80%] h-full flex flex-col items-center justify-center mx-auto">
           {sub_heading && (
             <div className="w-max mx-auto rounded-full border border-white/0 bg-white/20 backdrop-blur-lg shadow-[0_1px_4px_0_rgba(0,0,0,1)]]">
-              <p className="px-6 py-4 max-[360px]:text-[14px]  md:text-[16px] tracking-[0.8px] font-bold  max-[360px]:leading-4 max-[500px]:leading-4 lg:leading-4 text-white uppercase">
+              <p className="px-6 py-4 text-[14px]  md:text-[16px] tracking-[0.8px] font-bold leading-3 lg:leading-4 text-white uppercase">
                 {sub_heading}
               </p>
             </div>
           )}
 
-          <h1 className="text-[30px] lg:text-[60px] xl:text-[80px] leading-[114%] font-semibold text-white mt-6 mb-5 text-balance">
+          <h1 className="text-[30px] md:text-[44px] lg:text-[60px] xl:text-[80px] leading-[114%] font-semibold text-white mt-6 mb-5 text-balance">
             {heading}
           </h1>
           {content && (
@@ -31,7 +31,7 @@ export function Hero({ data, isDraft }: { data: HeroData; isDraft: boolean }) {
               {content.map((c, index) => (
                 <p
                   key={index}
-                  className=" max-[678px]:!text-[16px] !text-[24px] max-[678px]:!leading-[24px] text-center text-balance text-white/90 font-semibold"
+                  className=" text-[16px]! md:text-[24px]! max-[678px]:!leading-[24px] text-center text-balance text-white/90 font-semibold"
                 >
                   {c.paragraph}
                 </p>
