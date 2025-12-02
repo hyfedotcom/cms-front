@@ -9,8 +9,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const url = await getOrUploadToBlob(src);
-    // Если вернулся исходный URL (а не vercel-storage), ок — клиент решит, что показывать
-    console.log(url);
+
     return NextResponse.json({ url });
   } catch (e: unknown) {
     const err = e as Error;

@@ -15,7 +15,7 @@ import { Gallery } from "src/components/sections/Gallery/Gallery";
 
 export default async function Home() {
   const { isEnabled: isDraftMode } = await draftMode();
-  console.log(isDraftMode);
+  // console.log(isDraftMode);
   const api = new GetHomePages("cough-monitor-suite", "home", isDraftMode);
   const hero = await api.getHero();
   const workflow = await api.getWorkflow();
