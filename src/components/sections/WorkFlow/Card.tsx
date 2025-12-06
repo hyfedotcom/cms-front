@@ -14,7 +14,7 @@ export function Card({
   return (
     <div className="group mb-auto">
       {media?.url && (
-        <div className="relative w-full h-full  sm:max-w-[330px] max-h-[380px] bg-[#F7F7F9] rounded-[20px] overflow-hidden">
+        <div className="relative w-full max-w-[330px] h-full  sm:max-w-[330px] max-h-[380px] bg-[#F7F7F9] rounded-[20px] overflow-hidden">
           <Image
             src={media.url}
             alt={media.alt ?? ""}
