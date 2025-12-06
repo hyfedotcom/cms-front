@@ -2,6 +2,12 @@ import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const secret = searchParams.get("secret");
+
+  if (secret !== process.env.REVALIDATE_SECRET_KEY) {
+    return NextResponse.json({ error: "Invalid Token" }, { status: 401 });
+  }
   const body = await req.json();
   const model = body.model;
   const entry = body.entry;
@@ -13,7 +19,7 @@ export async function POST(req: Request) {
     if (model === "global") {
       console.log(`🌍 Global content updated for site: ${siteSlug}`);
       // ISR revalidation по тегу (если ты кэшируешь по siteSlug)
-      revalidateTag(`global-${siteSlug}`);
+      revalidateTag(`global-${siteSlug}`, "max");
       return NextResponse.json({ type: "global", site: siteSlug });
     }
 
@@ -21,7 +27,7 @@ export async function POST(req: Request) {
       const pageSlug = entry.slug;
       console.log(`📄 Page updated: ${siteSlug}/${pageSlug}`);
       // ISR revalidation по конкретному пути
-      revalidateTag(`page-${siteSlug}/${pageSlug}`);
+      revalidateTag(`page-${siteSlug}/${pageSlug}`, "max");
       return NextResponse.json({
         type: "page",
         site: siteSlug,
