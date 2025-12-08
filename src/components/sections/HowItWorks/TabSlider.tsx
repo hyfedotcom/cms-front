@@ -11,21 +11,25 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
 
   return (
     <div className="flex gap-5">
-      <div className="space-y-4 max-[768px]:w-full max-[1300px]:w-1/2">
+      <div className="space-y-3 md:space-y-0 max-[768px]:w-full max-[1300px]:w-1/2">
         {card.length > 0 &&
           card.map((c, index) => (
             <div
               onClick={() => setActiv(index)}
               className={clsx(
-                "md:max-w-[586px] p-4 md:px-5 rounded-[28px] cursor-pointer",
+                "group md:max-w-[586px] p-4 md:px-5 rounded-[28px] cursor-pointer transition-all duration-200",
                 index === activ
-                  ? "bg-[#D6F7F4] py-4 md:py-5"
-                  : "bg-gray-50 md:bg-transparent hover:bg-gray-50"
+                  ? "bg-[#D6F7F4] py-4 md:py-5 my-3"
+                  : "bg-gray-50 md:bg-transparent hover:bg-gray-50 "
               )}
               key={index}
             >
               <div className="flex items-center gap-3 md:gap-5">
-                <span className="w-13 min-w-13 h-13 min-h-13 bg-white md:bg-gray-50 rounded-full flex items-center justify-center">
+                <span
+                  className={`w-13 min-w-13 h-13 min-h-13 transition-colors duration-200 ${
+                    index === activ ? "bg-white" : "bg-white md:bg-gray-50 group-hover:bg-white"
+                  } rounded-full flex items-center justify-center`}
+                >
                   <Image
                     src={c.icon?.url ?? "/icons/icon.svg"}
                     alt={c.icon?.alt ?? "icon"}
@@ -34,7 +38,7 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
                     loading="lazy"
                   />
                 </span>{" "}
-                <h3 className="font-medium !text-[20px] md:!text-[24px]">
+                <h3 className="font-medium !text-[20px] md:!text-[24px] text-balance">
                   {c.heading}
                 </h3>
               </div>
