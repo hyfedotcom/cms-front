@@ -20,7 +20,7 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
                 "md:max-w-[586px] p-4 md:px-5 rounded-[28px] cursor-pointer",
                 index === activ
                   ? "bg-[#D6F7F4] py-4 md:py-5"
-                  : "bg-gray-50 md:bg-transparent"
+                  : "bg-gray-50 md:bg-transparent hover:bg-gray-50"
               )}
               key={index}
             >
