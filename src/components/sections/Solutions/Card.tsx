@@ -56,7 +56,7 @@ export function Card({ card }: { card: CardLink }) {
         {media?.url && (
           <div
             className={clsx(
-              "absolute opacity-0 scale-50 group-hover/card:opacity-100 group-hover/card:scale-100  md:translate-y-1/6 left-2  md:left-1/6 bottom-5  md:bottom-[0%] group-hover/card:bottom-[20%] duration-300",
+              "absolute opacity-0 scale-50 group-hover/card:opacity-100 group-hover/card:scale-100  md:translate-y-1/5 left-2  md:left-1/4   bottom-5  md:bottom-[0%] group-hover/card:bottom-[20%] duration-300",
               isMobile && inView && "bottom-5 opacity-100 left-0 scale-100"
             )}
           >
@@ -76,8 +76,8 @@ export function Card({ card }: { card: CardLink }) {
           {heading && (
             <h3
               className={clsx(
-                "h3-default transition-colors duration-300 group-hover/card:text-white",
-                inView && isMobile && "text-white"
+                "h3-default transition-all duration-300 group-hover/card:text-white",
+                inView && isMobile && "text-white font-medium"
               )}
             >
               {heading}

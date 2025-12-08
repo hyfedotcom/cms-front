@@ -27,7 +27,7 @@ const inter = Inter({
 export async function generateMetadata(): Promise<Metadata> {
   const aoi = new GetHomePages("cough-monitor-suite", "home", false);
   const seo = await aoi.geSEO();
-
+  
   return getSeoMetadata(seo);
 }
 
