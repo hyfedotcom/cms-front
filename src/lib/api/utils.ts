@@ -21,7 +21,7 @@ export const assetsUrl = (raw?: string | null): string | null => {
 
 export const normalizeImage = (m?: {
   url?: string | null;
-  alt?: string | null;
+  alternativeText?: string | null;
   width?: number | null;
   height?: number | null;
 }) => {
@@ -31,7 +31,7 @@ export const normalizeImage = (m?: {
 
   return {
     url,
-    alt: m.alt ?? "",
+    alt: m.alternativeText ?? "",
     width: m.width ?? 0,
     height: m.height ?? 0,
   };
@@ -39,7 +39,7 @@ export const normalizeImage = (m?: {
 
 export async function normalizeVideo(m?: {
   url?: string | null;
-  alt?: string | null;
+  alternativeText?: string | null;
   width?: number | null;
   height?: number | null;
 }) {
@@ -50,7 +50,7 @@ export async function normalizeVideo(m?: {
 
   return {
     url: strapiUrl,
-    alt: m.alt ?? "",
+    alt: m.alternativeText ?? "",
     width: m.width ?? 0,
     height: m.height ?? 0,
   };

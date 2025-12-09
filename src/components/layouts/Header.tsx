@@ -45,7 +45,7 @@ export function Header({
         <Link href="/" className="flex items-center z-2">
           <Image
             src={logo_header?.url || "/logos/logo-short.png"}
-            alt="Logo"
+            alt="Logo of CoughMonitor Suite"
             width={logo_header?.width ?? 100}
             height={logo_header?.height ?? 60}
             priority

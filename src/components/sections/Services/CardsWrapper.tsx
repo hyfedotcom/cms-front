@@ -115,7 +115,7 @@ export default function CardsWrapper({ card }: { card: CardServices[] }) {
                     <Image
                       className="w-6 h-6"
                       src={c.icon?.url || "/icons/icon.svg"}
-                      alt="icon"
+                      alt={c.icon?.alt || c.heading}
                       width={6}
                       height={6}
                     />

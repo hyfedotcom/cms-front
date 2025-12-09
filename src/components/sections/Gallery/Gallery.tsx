@@ -37,13 +37,13 @@ export function Gallery({ data }: { data: GalleryData }) {
   const media = data?.media.slice(0, 9) ?? [];
 
   if (!media.length) return null;
-
+  console.log(data.media);
   const images = media.map((ele, index) => {
     const pos = POSITION[index];
-    return { src: ele.url, ...pos };
+    return { src: ele.url, alt: ele.alt, ...pos };
   });
   return (
-    <section className="bg-white relative px-4 md:px-10 py-[100px] md:py-[140px]">
+    <section className="bg-white relative px-4 md:px-10 py-[100px] md:py-[140px] z-100">
       <motion.div
         variants={container}
         initial="hidden"
@@ -58,7 +58,7 @@ export function Gallery({ data }: { data: GalleryData }) {
             className={`${img.cols} ${img.rows} relative overflow-hidden rounded-xl min-h-[200px]`}
           >
             <Image
-              alt={`gallery-${i + 1}`}
+              alt={img.alt}
               src={img.src}
               fill
               className="object-cover hover:scale-115 transition-scale duration-250"

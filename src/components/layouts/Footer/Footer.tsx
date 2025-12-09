@@ -24,7 +24,7 @@ export function Footer({
             <a href="#hero">
               <Image
                 src={logo_footer?.url || "/logos/logo.png"}
-                alt={logo_footer?.alt || "logo"}
+                alt="Logo of CoughMonitor Suite"
                 width={logo_footer?.width ?? 200}
                 height={logo_footer?.height ?? 70}
               />

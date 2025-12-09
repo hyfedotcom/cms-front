@@ -61,8 +61,8 @@ export function Card({ card }: { card: CardLink }) {
             )}
           >
             <Image
-              alt={media?.alt ?? "Media Image"}
-              src={media?.url ?? "seo"}
+              alt={media?.alt ?? heading}
+              src={media?.url ?? heading}
               width={media.width > 500 ? 400 : media.width}
               height={media.width > 500 ? 400 : media.height}
               loading="lazy"
