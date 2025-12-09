@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: www.coughmonitor.com
+Host: https://www.coughmonitor.com
 
 # Sitemaps
-Sitemap: www.coughmonitor.com/sitemap.xml
+Sitemap: https://www.coughmonitor.com/sitemap.xml

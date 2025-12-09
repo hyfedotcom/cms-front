@@ -1,6 +1,8 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "www.coughmonitor.com",
+  siteUrl: "https://www.coughmonitor.com",
   generateRobotsTxt: true,
-  sitemapSize: 7000,
+  sitemapSize: 5000,
+  exclude: [],
+  additionalPaths: async () => [{ loc: "/" }, { loc: "/privacy-policy" }],
 };
