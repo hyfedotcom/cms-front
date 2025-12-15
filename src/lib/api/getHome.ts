@@ -201,7 +201,7 @@ export class GetHomePages {
       (w) => w.__component === "cms.section-workflow"
     );
 
-    console.log(worflow);
+   
     return {
       heading: worflow?.heading,
       sub_heading: worflow?.sub_heading,

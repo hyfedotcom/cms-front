@@ -52,7 +52,7 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
         >
           <div className="absolute inset-0 z-11 bg-gradient-to-b from-[#184242]/60 to-[#184242]/60"></div>
 
-          <AnimatedText className="max-w-[750px] mx-auto text-center space-y-6 flex flex-col items-center justify-center h-full relative z-100">
+          <AnimatedText className="max-w-[750px] px-4 mx-auto text-center space-y-4 md:space-y-6 flex flex-col items-center justify-center h-full relative z-100">
             {sub_heading && (
               <motion.div
                 style={{ opacity: opacity }}
@@ -80,7 +80,7 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
               </motion.div>
             )}
             {cta && (
-              <motion.div style={{ opacity: opacity }} className="space-x-5">
+              <motion.div style={{ opacity: opacity }} className="space-x-5 mt-3">
                 {cta.map((c, i) => (
                   <Button key={i} data={c} />
                 ))}

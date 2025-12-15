@@ -40,7 +40,7 @@ export function Header({
         isTop ? "bg-white/10" : "bg-white/20"
       } transform-color duration-500 backdrop-blur-[40px] shadow-sm`}
     >
-      <div className="container !py-2 md:!py-4 mx-auto px-6 flex items-center justify-between">
+      <div className="container !py-3 md:!py-4 mx-auto px-6 flex items-center justify-between">
         {/* LOGO */}
         <Link href="/" className="flex items-center z-2">
           <Image
@@ -96,17 +96,17 @@ export function Header({
           aria-label="Open menu of navitagion"
         >
           <span
-            className={`block h-0.5 w-6 bg-gray-800 transition-transform rounded-full ${
+            className={`block h-0.5 w-6 bg-primary transition-transform rounded-full ${
               open ? "rotate-45 translate-y-1.5" : ""
             }`}
           />
           <span
-            className={`block h-0.5 w-6 bg-gray-800 transition-opacity rounded-full ${
+            className={`block h-0.5 w-6 bg-primary transition-opacity rounded-full ${
               open ? "opacity-0" : "opacity-100"
             }`}
           />
           <span
-            className={`block h-0.5 w-6 bg-gray-800 transition-transform rounded-full ${
+            className={`block h-0.5 w-6 bg-primary transition-transform rounded-full ${
               open ? "-rotate-45 -translate-y-2" : ""
             }`}
           />

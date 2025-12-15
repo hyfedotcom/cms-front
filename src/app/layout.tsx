@@ -18,6 +18,7 @@ import {
 import { CookieBanner } from "src/components/cookie/CookieBanner";
 import { AnalyticsLoader } from "src/components/analitics/AnalyticsLoader";
 import { ConsentProvider } from "./context/ConsentContext";
+import { CookieSettingsButton } from "src/components/cookie/CookieSettingsButton";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,7 +28,7 @@ const inter = Inter({
 export async function generateMetadata(): Promise<Metadata> {
   const aoi = new GetHomePages("cough-monitor-suite", "home", false);
   const seo = await aoi.geSEO();
-  
+
   return getSeoMetadata(seo);
 }
 
@@ -55,6 +56,7 @@ export default async function RootLayout({
           <LenisProvider>
             {" "}
             <CookieBanner />
+            <CookieSettingsButton />
             <AnalyticsLoader />
             {children}
           </LenisProvider>

@@ -14,16 +14,16 @@ export function RichTextBlocks({ content }: { content: BlocksContent | null }) {
       <BlocksRenderer
         content={content}
         blocks={{
-          paragraph: ({ children }) => <p className="mb-4">{children}</p>,
+          paragraph: ({ children }) => <p className="">{children}</p>,
           heading: ({ children, level }) => {
             const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
-            return <Tag className="font-semibold mt-6 mb-3">{children}</Tag>;
+            return <Tag className="font-semibold ">{children}</Tag>;
           },
           list: ({ children, format }) =>
             format === "ordered" ? (
-              <ol className="list-decimal pl-6 space-y-2 mb-4">{children}</ol>
+              <ol className="list-decimal pl-6 space-y-2 ">{children}</ol>
             ) : (
-              <ul className="list-disc pl-6 space-y-2 mb-4">{children}</ul>
+              <ul className="list-disc pl-6 space-y-2 ">{children}</ul>
             ),
           quote: ({ children }) => (
             <blockquote className="border-l-4 border-primary pl-4 italic text-black my-4">

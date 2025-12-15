@@ -36,7 +36,7 @@ export class GetPrivacyPolicy {
           params,
           { tag: `page-${this.siteSlug}/${this.pageSlug}` }
         );
-        console.log(res.data[0]);
+    
         return res.data[0];
       })();
     }

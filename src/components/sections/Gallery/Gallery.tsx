@@ -37,7 +37,6 @@ export function Gallery({ data }: { data: GalleryData }) {
   const media = data?.media.slice(0, 9) ?? [];
 
   if (!media.length) return null;
-  console.log(data.media);
   const images = media.map((ele, index) => {
     const pos = POSITION[index];
     return { src: ele.url, alt: ele.alt, ...pos };

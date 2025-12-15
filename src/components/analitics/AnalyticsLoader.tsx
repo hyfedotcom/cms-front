@@ -1,7 +1,8 @@
 "use client";
 
 import { useConsent } from "src/app/context/ConsentContext";
-import { GoogleAnalytics } from "./GoogleAnalytics";
+import Google from "./Google";
+import Clarity from "./Clarity";
 
 export function AnalyticsLoader() {
   const { consent } = useConsent();
@@ -12,7 +13,8 @@ export function AnalyticsLoader() {
 
   return (
     <>
-      <GoogleAnalytics />
+      <Google />
+      <Clarity />
     </>
   );
 }
