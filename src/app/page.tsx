@@ -12,6 +12,7 @@ import { SectionWrapper } from "src/components/Animation/SectionWrapper";
 import { GetHomePages } from "src/lib/api/getHome";
 import { draftMode } from "next/headers";
 import { Gallery } from "src/components/sections/Gallery/Gallery";
+import { JsonLd } from "src/components/seo/JsonLd";
 
 export default async function Home() {
   const { isEnabled: isDraftMode } = await draftMode();
@@ -27,9 +28,11 @@ export default async function Home() {
   const solutions = await api.getSolutions();
   const cta = await api.getCta();
   const gallery = await api.getGallery();
-
+  const seo = await api.geSEO();
+  console.log(seo?.structured_data);
   return (
     <>
+      {seo?.structured_data ? <JsonLd data={seo.structured_data} /> : null}
       <Hero data={hero} isDraft={isDraftMode} />
       <HeroPlug />
       <SectionWrapper>

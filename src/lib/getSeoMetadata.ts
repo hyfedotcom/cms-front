@@ -10,11 +10,8 @@ export function getSeoMetadata(seo?: Seo): Metadata {
     meta_image,
     canonical_URL,
     meta_robots,
-    is_indexable,
-    structured_data,
+    is_indexable
   } = seo;
-
-
 
   return {
     title: meta_title,
@@ -38,10 +35,5 @@ export function getSeoMetadata(seo?: Seo): Metadata {
       index: !!is_indexable,
       follow: meta_robots !== "nofollow",
     },
-    other: structured_data
-      ? {
-          "script:ld+json": JSON.stringify(structured_data),
-        }
-      : undefined,
   };
 }
