@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "../../lib/motion";
@@ -27,9 +27,9 @@ export function Header({
   const navRef = useRef<HTMLElement | null>(null);
   const logoRef = useRef<HTMLImageElement | null>(null);
   const [widthOfMobileMenu, setWidthOfMobileMenu] = useState<boolean>(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (width <= 767) return;
     const handleScroll = () => {
       setIsTop(window.scrollY <= 500);
     };
@@ -52,21 +52,34 @@ export function Header({
       logo.getBoundingClientRect().width;
     const biggerstScreen = widthContainer + 150 > screenWidth;
     setWidthOfMobileMenu(biggerstScreen);
+    setReady(true);
   }, [width]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!widthOfMobileMenu) setOpen(false);
   }, [widthOfMobileMenu]);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-1001 ${
+      className={`fixed top-0 ${
+        !ready
+          ? "opacity-0"
+     
+          : "opacity-100 "
+      } left-0 right-0 z-1001 w-full ${
         isTop ? "bg-white/10" : "bg-white/40"
-      } transform-color duration-500 backdrop-blur-[40px] shadow-sm`}
+      } transform-all duration-500 backdrop-blur-[40px] shadow-sm`}
     >
       <div className="container !py-3 md:!py-4 mx-auto px-6 flex items-center justify-between">
         {/* LOGO */}
-        <Link href="/" className="flex items-center z-2">
+        <Link
+          href="/"
+          className={`transition-opacity duration-600 delay-100 ${
+            !ready
+              ? "opacity-0"
+              : "opacity-100"
+          } items-center z-2`}
+        >
           <Image
             ref={logoRef}
             src={logo_header?.url || "/logos/logo-short.png"}
@@ -82,9 +95,11 @@ export function Header({
         {nav_links && nav_links.length > 0 && (
           <nav
             ref={navRef}
-            className={` ${
-              widthOfMobileMenu
-                ? "invisible pointer-events-none absolute"
+            className={`transition-opacity duration-600 delay-200 ${
+              !ready
+                ? "opacity-0"
+                : widthOfMobileMenu
+                ? "opacity-0 pointer-events-none absolute"
                 : "flex relative"
             } space-x-8  ${
               isTop && path === "/" ? "text-white" : "text-gray-800"
@@ -112,10 +127,12 @@ export function Header({
             href={cta.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={` ${
-              widthOfMobileMenu
-                ? "invisible pointer-events-none absolute"
-                : "inline-block relative"
+            className={`transition-opacity duration-600 delay-400 ${
+              !ready
+                ? "opacity-0"
+                : widthOfMobileMenu
+                ? "opacity-0 pointer-events-none absolute"
+                : "inline-block relative "
             }  ${
               isTop && path === "/"
                 ? "bg-white text-primary"
@@ -128,8 +145,8 @@ export function Header({
 
         {/* BURGER MENU */}
         <button
-          className={`${
-            widthOfMobileMenu ? "flex " : "hidden"
+          className={` transition-opacity duration-600 delay-200 ${
+            !ready ? "opacity-0" : widthOfMobileMenu ? "flex " : "hidden"
           }   z-2 w-auto h-4  flex-col justify-between items-center`}
           onClick={() => setOpen(!open)}
           aria-label="Open menu of navitagion"
@@ -169,7 +186,7 @@ export function Header({
             transition={{ type: "spring", stiffness: 80, damping: 20 }}
             className={`fixed inset-0 h-screen w-screen z-[1] bg-white flex items-end`}
           >
-            <div className="flex flex-col items-start p-4 justify-center space-y-5 text-xl font-semibold h-[70vh] w-full ">
+            <div className="flex flex-col items-start p-4 md:p-10 my-auto justify-center space-y-5 text-xl font-semibold h-[70vh] w-full ">
               {nav_links &&
                 nav_links.length > 0 &&
                 nav_links.map((l, index) => (
@@ -193,7 +210,7 @@ export function Header({
               )}
 
               {social_media && social_media.length > 0 && (
-                <div className="flex gap-5 mt-auto">
+                <div className="flex gap-5 mt-10">
                   {social_media.map((media, index) => (
                     <SocialMediaRender data={media} key={index} />
                   ))}
