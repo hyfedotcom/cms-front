@@ -23,23 +23,34 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
   const videoWitdh = useTransform(
     scrollYProgress,
     [0, 0.7],
-    width >= 768 ? ["60%", "100%"] : ["80%", "100%"]
+    width >= 768 ? ["60%", "100%"] : ["100%", "100%"]
   );
   const videoHeight = useTransform(
     scrollYProgress,
     [0, 0.7],
-    ["60vh", "100vh"]
+    width >= 768 ? ["60vh", "100vh"] : ["100vh", "100vh"]
   );
   const scale = useTransform(
     scrollYProgress,
     [0, 0.7],
     width >= 768 ? ["90%", "100%"] : ["100%", "100%"]
   );
-  const radius = useTransform(scrollYProgress, [0, 0.7], ["50px", "0px"]);
-  const opacity = useTransform(scrollYProgress, [0.4, 0.7], ["0%", "100%"]);
+  const radius = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    width >= 768 ? ["50px", "0px"] : ["0px", "0px"]
+  );
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.4, 0.7],
+    width >= 768 ? ["0%", "100%"] : ["100%", "100%"]
+  );
 
   return (
-    <section ref={refContainer} className="relative w-full h-[350vh] bg-white">
+    <section
+      ref={refContainer}
+      className="relative w-full md:h-[350vh] bg-white"
+    >
       <div className="sticky top-0 h-screen flex items-center justify-center">
         <motion.div
           className="relative rounded-[20px] overflow-hidden"
@@ -73,14 +84,20 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
             {content?.length != 0 && (
               <motion.div className="space-y-4" style={{ opacity: opacity }}>
                 {content?.map((c, i) => (
-                  <p key={i} className="body-large text-white text-balance font-semibold">
+                  <p
+                    key={i}
+                    className="body-large text-white text-balance font-semibold"
+                  >
                     {c.paragraph}
                   </p>
                 ))}
               </motion.div>
             )}
             {cta && (
-              <motion.div style={{ opacity: opacity }} className="space-x-5 mt-3">
+              <motion.div
+                style={{ opacity: opacity }}
+                className="space-x-5 mt-3"
+              >
                 {cta.map((c, i) => (
                   <Button key={i} data={c} />
                 ))}

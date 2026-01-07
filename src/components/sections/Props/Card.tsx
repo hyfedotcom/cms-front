@@ -12,20 +12,21 @@ export function Card({
 }) {
   const { heading, media, sub_heading, paragraph } = data;
   const { color } = styles;
+  
 
   return (
     <div
-      className="sticky top-12 md:top-25 flex flex-col md:flex-row justify-end w-full h-auto lg:h-[580px] rounded-[20px]"
+      className="sticky top-12 md:top-25 flex flex-col md:flex-row justify-end w-full h-auto lg:h-[580px] rounded-[20px] shadow-[0_-4px_30px_rgba(0,0,0,0.09)] md:shadow-[0_-4px_30px_rgba(0,0,0,0.04)]"
       style={{ backgroundColor: color }}
     >
-      <div className="w-full md:w-1/2 px-5 md:px-10 py-10">
+      <div className="w-full md:w-1/2 px-4 md:px-10 py-6 md:py-10">
         {sub_heading && (
-          <p className="max-[768px]:mb-1 max-[768px]:!text-[14px] font-medium! text-gray-600">
+          <p className="max-[768px]:mb-1 hidden md:flex max-[768px]:!text-[14px] font-medium! text-gray-600">
             {sub_heading}
           </p>
         )}
-        <div className="space-y-5  md:pt-[180px]">
-          {heading && <h3 className="h3-default font-medium">{heading}</h3>}
+        <div className="space-y-4 md:space-y-5  md:pt-[180px]">
+          {heading && <h3 className="max-[768px]:text-2xl! h3-default font-medium">{heading}</h3>}
           {paragraph && <p>{paragraph}</p>}
         </div>
       </div>

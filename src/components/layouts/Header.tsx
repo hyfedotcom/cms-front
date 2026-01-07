@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "../../lib/motion";
@@ -23,6 +23,10 @@ export function Header({
   const [isTop, setIsTop] = useState(true);
   const { width } = useScreenSize();
   const path = usePathname();
+  const btnRef = useRef<HTMLAnchorElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
+  const logoRef = useRef<HTMLImageElement | null>(null);
+  const [widthOfMobileMenu, setWidthOfMobileMenu] = useState<boolean>(false);
 
   useEffect(() => {
     if (width <= 767) return;
@@ -34,16 +38,37 @@ export function Header({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [width]);
 
+  useEffect(() => {
+    const button = btnRef.current;
+    const navigation = navRef.current;
+    const logo = logoRef.current;
+    const screenWidth = window.innerWidth;
+
+    if (!button || !navigation || !logo) return setWidthOfMobileMenu(false);
+
+    const widthContainer =
+      button.getBoundingClientRect().width +
+      navigation.getBoundingClientRect().width +
+      logo.getBoundingClientRect().width;
+    const biggerstScreen = widthContainer + 150 > screenWidth;
+    setWidthOfMobileMenu(biggerstScreen);
+  }, [width]);
+
+  useEffect(() => {
+    if (!widthOfMobileMenu) setOpen(false);
+  }, [widthOfMobileMenu]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-1001 ${
-        isTop ? "bg-white/10" : "bg-white/20"
+        isTop ? "bg-white/10" : "bg-white/40"
       } transform-color duration-500 backdrop-blur-[40px] shadow-sm`}
     >
       <div className="container !py-3 md:!py-4 mx-auto px-6 flex items-center justify-between">
         {/* LOGO */}
         <Link href="/" className="flex items-center z-2">
           <Image
+            ref={logoRef}
             src={logo_header?.url || "/logos/logo-short.png"}
             alt="Logo of CoughMonitor Suite"
             width={logo_header?.width ?? 100}
@@ -56,7 +81,12 @@ export function Header({
         {/* NAV */}
         {nav_links && nav_links.length > 0 && (
           <nav
-            className={`hidden lg:flex space-x-8 ${
+            ref={navRef}
+            className={` ${
+              widthOfMobileMenu
+                ? "invisible pointer-events-none absolute"
+                : "flex relative"
+            } space-x-8  ${
               isTop && path === "/" ? "text-white" : "text-gray-800"
             }  font-medium`}
           >
@@ -64,7 +94,9 @@ export function Header({
               <a
                 key={index}
                 href={`/${l.link}`}
-                className="hover:text-primary transition-colors"
+                className={`${
+                  isTop ? "hover:text-white/60 " : "hover:text-primary"
+                } transition-colors`}
               >
                 {l.label}
               </a>
@@ -76,14 +108,19 @@ export function Header({
 
         {cta && (
           <a
+            ref={btnRef}
             href={cta.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`hidden lg:inline-block ${
+            className={` ${
+              widthOfMobileMenu
+                ? "invisible pointer-events-none absolute"
+                : "inline-block relative"
+            }  ${
               isTop && path === "/"
                 ? "bg-white text-primary"
                 : "bg-primary text-white"
-            }  px-6 py-3 text-[20px] rounded-full font-bold uppercase hover:opacity-85 transition`}
+            }  px-6 py-3 text-[18px] rounded-full font-bold uppercase hover:opacity-85 transition`}
           >
             {cta.label}
           </a>
@@ -91,24 +128,32 @@ export function Header({
 
         {/* BURGER MENU */}
         <button
-          className="lg:hidden relative z-2 w-auto h-4 flex flex-col justify-between items-center"
+          className={`${
+            widthOfMobileMenu ? "flex " : "hidden"
+          }   z-2 w-auto h-4  flex-col justify-between items-center`}
           onClick={() => setOpen(!open)}
           aria-label="Open menu of navitagion"
         >
           <span
-            className={`block h-0.5 w-6 bg-primary transition-transform rounded-full ${
-              open ? "rotate-45 translate-y-1.5" : ""
-            }`}
+            className={`block h-0.5 w-6 ${
+              !open && isTop ? "bg-white" : "bg-primary"
+            }
+
+ transition-transform rounded-full ${open ? "rotate-45 translate-y-1.5" : ""}`}
           />
           <span
-            className={`block h-0.5 w-6 bg-primary transition-opacity rounded-full ${
-              open ? "opacity-0" : "opacity-100"
-            }`}
+            className={`block h-0.5 w-6 ${
+              !open && isTop ? "bg-white" : "bg-primary"
+            }
+
+ transition-opacity rounded-full ${open ? "opacity-0" : "opacity-100"}`}
           />
           <span
-            className={`block h-0.5 w-6 bg-primary transition-transform rounded-full ${
-              open ? "-rotate-45 -translate-y-2" : ""
-            }`}
+            className={`block h-0.5 w-6 ${
+              !open && isTop ? "bg-white" : "bg-primary"
+            }
+
+  transition-transform rounded-full ${open ? "-rotate-45 -translate-y-2" : ""}`}
           />
         </button>
       </div>
@@ -122,7 +167,7 @@ export function Header({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 80, damping: 20 }}
-            className="fixed inset-0 h-screen w-screen z-[1] bg-white flex items-end"
+            className={`fixed inset-0 h-screen w-screen z-[1] bg-white flex items-end`}
           >
             <div className="flex flex-col items-start p-4 justify-center space-y-5 text-xl font-semibold h-[70vh] w-full ">
               {nav_links &&

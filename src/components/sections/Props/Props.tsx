@@ -8,7 +8,7 @@ export function Props({ data }: { data: PropsData }) {
   function getCardStyles(index: number) {
     const h = 160;
     const s = 30;
-    const l = 95 - index * 2;
+    const l = 95 - index * 3;
 
     // базовый цвет
     const base = `${h} ${s}% ${l}%`;

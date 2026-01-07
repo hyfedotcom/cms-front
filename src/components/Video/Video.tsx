@@ -100,18 +100,16 @@ export function Video({
         }}
       />
 
-      {!giveUp && (
-        <Image
-          src={preview}
-          alt="preview"
-          fill
-          className={`object-cover transition-opacity duration-700 ${
-            ready ? "opacity-0 z-0" : "opacity-100 z-10"
-          }`}
-          sizes="(max-width: 768px) 90vw, (max-width: 1200px) 90vw"
-          fetchPriority={priority ? "high" : "auto"}
-        />
-      )}
+      <Image
+        src={preview}
+        alt="preview"
+        fill
+        className={`object-cover transition-opacity duration-700 ${
+          ready ? "z-0" :  "z-10"
+        }`}
+        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 90vw"
+        fetchPriority={priority ? "high" : "auto"}
+      />
     </div>
   );
 }
