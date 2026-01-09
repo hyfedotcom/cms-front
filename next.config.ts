@@ -36,22 +36,28 @@ const nextConfig: NextConfig = {
 
   async headers() {
     const isProd = process.env.NODE_ENV === "production";
+    if (!isProd) return [];
 
-    if (!isProd) {
-      return [
-        {
-          source: "/:path*",
-          headers: [{ key: "Cache-Control", value: "no-store" }],
-        },
-      ];
-    }
     return [
+      // Static assets: пусть живут долго
       {
         source: "/_next/static/:path*",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+
+      // Pages (HTML): браузер не кеширует, CDN кеширует
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=0, s-maxage=86400, stale-while-revalidate=300, must-revalidate",
           },
         ],
       },
