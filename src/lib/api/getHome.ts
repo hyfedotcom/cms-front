@@ -423,7 +423,7 @@ export class GetHomePages {
   async geSEO(): Promise<Seo> {
     const data = await this.fetch();
     const seo = data?.seo;
-    console.log(seo?.structured_data);
+   
     return {
       is_indexable: seo?.is_indexable ?? false,
       meta_title: seo?.meta_title,

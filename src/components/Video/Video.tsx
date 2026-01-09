@@ -10,10 +10,12 @@ type MediaData = {
 };
 
 export function Video({
-  video,
+  videoMobile,
+  videoPc,
   priority = false,
 }: {
-  video: MediaData;
+  videoMobile: MediaData;
+  videoPc: MediaData;
   priority?: boolean;
 }) {
   const [ready, setReady] = useState(false);
@@ -75,14 +77,15 @@ export function Video({
     if (el.readyState >= 2) setReady(true);
   }, [shouldLoad]);
 
-  const preview = video.placeholder?.url || "/images/preview.png";
-  const src = video.video?.url;
+  const preview =
+    videoMobile.placeholder?.url ||
+    videoPc.placeholder?.url ||
+    "/images/preview.png";
 
   return (
     <div ref={wrapperRef} className="relative w-full h-full overflow-hidden">
       <video
         ref={videoRef}
-        src={shouldLoad ? src : undefined}
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
           ready ? "opacity-100 z-10" : "opacity-0 z-0"
         }`}
@@ -98,14 +101,25 @@ export function Video({
           transform: "translateZ(0)",
           willChange: "opacity, transform",
         }}
-      />
+      >
+        <source
+          src={videoMobile.video?.url}
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
+        <source
+          src={videoPc.video?.url}
+          type="video/mp4"
+          media="(min-width: 768px)"
+        />
+      </video>
 
       <Image
         src={preview}
         alt="preview"
         fill
         className={`object-cover transition-opacity duration-700 ${
-          ready ? "z-0" :  "z-10"
+          ready ? "z-0" : "z-10"
         }`}
         sizes="(max-width: 768px) 90vw, (max-width: 1200px) 90vw"
         fetchPriority={priority ? "high" : "auto"}

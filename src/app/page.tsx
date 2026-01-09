@@ -10,14 +10,17 @@ import { CtaSection } from "src/components/sections/CtaSection/CtaSection";
 import { HeroPlug } from "src/components/sections/Hero/HeroPlug";
 import { SectionWrapper } from "src/components/Animation/SectionWrapper";
 import { GetHomePages } from "src/lib/api/getHome";
-import { draftMode } from "next/headers";
+// import { draftMode } from "next/headers";
 import { Gallery } from "src/components/sections/Gallery/Gallery";
 import { JsonLd } from "src/components/seo/JsonLd";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export default async function Home() {
-  const { isEnabled: isDraftMode } = await draftMode();
+  // const { isEnabled: isDraftMode } = await draftMode();
   // console.log(isDraftMode);
-  const api = new GetHomePages("cough-monitor-suite", "home", isDraftMode);
+  const api = new GetHomePages("cough-monitor-suite", "home");
   const hero = await api.getHero();
   const workflow = await api.getWorkflow();
   const partners = await api.getPartners();
@@ -29,11 +32,11 @@ export default async function Home() {
   const cta = await api.getCta();
   const gallery = await api.getGallery();
   const seo = await api.geSEO();
-  console.log(seo?.structured_data);
+
   return (
     <>
       {seo?.structured_data ? <JsonLd data={seo.structured_data} /> : null}
-      <Hero data={hero} isDraft={isDraftMode} />
+      <Hero data={hero} />
       <HeroPlug />
       <SectionWrapper>
         <WorkFlow data={workflow} />

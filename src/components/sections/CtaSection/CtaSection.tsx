@@ -106,7 +106,7 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
           </AnimatedText>
           <div className="absolute inset-0">
             {video_pc?.video && video_mobile?.video && (
-              <Video video={width < 768 ? video_mobile : video_pc} />
+              <Video videoPc={video_mobile} videoMobile={video_pc} />
             )}
           </div>
         </motion.div>
