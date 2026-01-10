@@ -118,10 +118,11 @@ export function Video({
         src={preview}
         alt="preview"
         fill
-        className={`object-cover transition-opacity duration-700 ${
+        className={`object-cover transition-opacity duration-700 w-full h-full  ${
           ready ? "z-0" : "z-10"
         }`}
-        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 90vw"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw"
+        style={{ objectFit: "cover", objectPosition: "center" }}
         fetchPriority={priority ? "high" : "auto"}
       />
     </div>

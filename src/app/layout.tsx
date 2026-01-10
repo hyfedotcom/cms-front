@@ -41,17 +41,11 @@ export default async function RootLayout({
   const settings = await api.settings();
   const footer = await api.footer();
 
-  const cookiesStore = cookies();
-  const raw = (await cookiesStore).get(ANALYTICS_CONSENT_COOKIE)?.value ?? null;
-  const inittialConsent: AnalyticsConsent = parseConsentFromCookieString(
-    raw ? `${ANALYTICS_CONSENT_COOKIE}=${raw}` : null
-  );
-
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
         <Header data={header} settings={settings} />
-        <ConsentProvider initialConsent={inittialConsent}>
+        <ConsentProvider>
           <LenisProvider>
             {" "}
             <CookieBanner />

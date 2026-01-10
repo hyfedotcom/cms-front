@@ -1,7 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, startTransition, useContext, useEffect, useState } from "react";
 import {
+  ANALYTICS_CONSENT_COOKIE,
   AnalyticsConsent,
   parseConsentFromCookieString,
   setConsentCookie,
@@ -21,27 +22,33 @@ const ConsentContext = createContext<ConsentContextValue | undefined>(
   undefined
 );
 
-export function ConsentProvider({
-  initialConsent,
-  children,
-}: {
-  initialConsent: AnalyticsConsent;
-  children: React.ReactNode;
-}) {
-  const [consent, setConsent] = useState<AnalyticsConsent>(initialConsent);
+function readConsent(): AnalyticsConsent {
+  if (typeof document === "undefined") return "unknown";
+  const raw =
+    document.cookie
+      .split("; ")
+      .find((c) => c.startsWith(`${ANALYTICS_CONSENT_COOKIE}=`))
+      ?.split("=")[1] ?? null;
+
+  return parseConsentFromCookieString(
+    raw ? `${ANALYTICS_CONSENT_COOKIE}=${raw}` : null
+  );
+}
+
+export function ConsentProvider({ children }: { children: React.ReactNode }) {
+  const [consent, setConsent] = useState<AnalyticsConsent>("unknown");
 
   // Баннер открыт, если consent ещё не выбран
-  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(
-    initialConsent !== "granted" && initialConsent !== "denied"
-  );
+  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(false);
 
   // На клиенте перечитываем куку, если SSR был без неё
   useEffect(() => {
-    const current = parseConsentFromCookieString(document.cookie);
-    setConsent(current);
+    const c = readConsent();
 
-    const hasChoice = current === "granted" || current === "denied";
-    setIsBannerOpen(!hasChoice);
+    startTransition(() => {
+      setConsent(c);
+      setIsBannerOpen(c !== "denied" && c !== "granted");
+    });
   }, []);
 
   const openBanner = () => setIsBannerOpen(true);
