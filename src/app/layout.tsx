@@ -9,12 +9,6 @@ import { GetHomePages } from "src/lib/api/getHome";
 import { getSeoMetadata } from "src/lib/getSeoMetadata";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { cookies } from "next/headers";
-import {
-  parseConsentFromCookieString,
-  ANALYTICS_CONSENT_COOKIE,
-  AnalyticsConsent,
-} from "src/lib/cookies/cookies";
 import { CookieBanner } from "src/components/cookie/CookieBanner";
 import { AnalyticsLoader } from "src/components/analitics/AnalyticsLoader";
 import { ConsentProvider } from "./context/ConsentContext";
@@ -23,6 +17,7 @@ import { CookieSettingsButton } from "src/components/cookie/CookieSettingsButton
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,5 +1,3 @@
-import { AnimatedText } from "src/components/Animation/AnimatedText";
-import { HeroTextReveal } from "src/components/Animation/HeroTextReveal";
 import { Button } from "src/components/ui/Button/Button";
 import { Video } from "src/components/Video/Video";
 import { HeroData } from "src/lib/types/sections/hero";
