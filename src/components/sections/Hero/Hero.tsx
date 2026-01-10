@@ -10,7 +10,7 @@ export function Hero({ data }: { data: HeroData }) {
   return (
     <main id="hero" className="fixed inset-0 px-4 z-0">
       <div className="relative  z-2 w-full h-full mx-auto  max-w-[1440px] text-center">
-        <HeroTextReveal  className="w-full md:w-[80%] h-full flex flex-col items-center justify-center mx-auto">
+        <div  className="w-full md:w-[80%] h-full flex flex-col items-center justify-center mx-auto">
           {sub_heading && (
             <div className="w-max mx-auto rounded-full border border-white/0 bg-white/20 backdrop-blur-lg shadow-[0_1px_4px_0_rgba(0,0,0,1)]]">
               <p className="px-6 py-4 text-[14px]  md:text-[16px] tracking-[0.8px] font-bold leading-3 lg:leading-4 text-white uppercase">
@@ -42,7 +42,7 @@ export function Hero({ data }: { data: HeroData }) {
               ))}
             </div>
           )}
-        </HeroTextReveal>
+        </div>
       </div>
 
       <div className="absolute inset-0 z-0  ">

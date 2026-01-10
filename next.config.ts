@@ -49,7 +49,15 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-
+      {
+        source: "/video/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
       // Pages (HTML): браузер не кеширует, CDN кеширует
       {
         source: "/:path*",
