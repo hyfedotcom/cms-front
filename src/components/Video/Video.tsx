@@ -125,7 +125,7 @@ export function Video({
         src={preview}
         alt="preview"
         fill
-        sizes="100vw"
+        sizes="90vw"
         priority={priority}
         className={`absolute inset-0 w-full h-screen ${
           ready ? "z-0" : "z-10"
