@@ -23,9 +23,9 @@ export function CookieBanner() {
   return (
     <>
       {isBannerOpen ? (
-        <div className="bg-white fixed bottom-5 md:bottom-10 left-5 md:left-10 w-[90%] md:max-w-[500px] p-4 shadow-lg z-[9999] space-y-3 text-sm rounded-2xl border border-gray-200">
+        <div className="bg-white fixed bottom-5 md:bottom-10 left-5 md:left-10 w-[75vw] md:max-w-[500px] p-4 shadow-lg z-[9999] space-y-1.5 md:space-y-3 text-sm rounded-2xl border border-gray-200">
           <div className="flex items-start justify-between gap-3">
-            <div className="text-base font-semibold">Cookies</div>
+            <div className="text-sx md:text-base font-semibold">Cookies</div>
 
             <button
               type="button"
@@ -37,16 +37,14 @@ export function CookieBanner() {
           </div>
 
           <div>
-            We use essential cookies to make this website work. With your
-            consent, we also use cookies to understand how our site is used and
-            improve it. Learn more in our{" "}
+            We use essential cookies. Learn more in our{" "}
             <Link className="underline text-blue-500" href="/privacy-policy">
               privacy policy
             </Link>
             .
           </div>
 
-          <div className="text-xs opacity-70">
+          <div className="text-xs opacity-70 hidden md:block">
             By clicking “Accept all”, you agree to the use of analytics cookies.
             You can change or withdraw your consent at any time in Cookie
             settings or in your browser settings.
@@ -55,15 +53,15 @@ export function CookieBanner() {
           <div className="flex gap-3 justify-end pt-2">
             <button
               onClick={reject}
-              className="px-4 py-2 cursor-pointer rounded-[8px] border hover:opacity-80 font-medium border-gray-300 text-gray-700 text-sm"
+              className="px-2 md:px-4 py-1 md:py-2 cursor-pointer rounded-[8px] border hover:opacity-80 font-medium border-gray-300 text-gray-700 text-[12px] md:text-sm"
             >
-              Reject non-essential
+              Reject
             </button>
             <button
               onClick={accept}
-              className="bg-primary cursor-pointer rounded-[8px] hover:opacity-80 font-medium text-white px-4 py-2 text-sm"
+              className="px-2 md:px-4 py-1 md:py-2  bg-primary cursor-pointer rounded-[8px] hover:opacity-80 font-medium text-white text-[12px] md:text-sm"
             >
-              Accept all
+              Accept
             </button>
           </div>
         </div>

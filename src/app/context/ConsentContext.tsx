@@ -47,12 +47,15 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
   // Баннер открыт, если consent ещё не выбран
   const [isBannerOpen, setIsBannerOpen] = useState<boolean>(false);
 
+
   useEffect(() => {
     const c = readConsent();
     setConsent(c);
 
     if (c === "unknown") {
-      const id = window.setTimeout(() => setIsBannerOpen(true), 3000);
+      const id = window.requestIdleCallback
+        ? window.requestIdleCallback(() => setIsBannerOpen(true))
+        : window.setTimeout(() => setIsBannerOpen(true), 0);
 
       return () => {
         if ("cancelIdleCallback" in window)
