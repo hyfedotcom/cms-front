@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, startTransition, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  startTransition,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   ANALYTICS_CONSENT_COOKIE,
   AnalyticsConsent,
@@ -41,14 +47,23 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
   // Баннер открыт, если consent ещё не выбран
   const [isBannerOpen, setIsBannerOpen] = useState<boolean>(false);
 
-  // На клиенте перечитываем куку, если SSR был без неё
+
   useEffect(() => {
     const c = readConsent();
+    setConsent(c);
 
-    startTransition(() => {
-      setConsent(c);
-      setIsBannerOpen(c !== "denied" && c !== "granted");
-    });
+    if (c === "unknown") {
+      const id = window.requestIdleCallback
+        ? window.requestIdleCallback(() => setIsBannerOpen(true))
+        : window.setTimeout(() => setIsBannerOpen(true), 0);
+
+      return () => {
+        if ("cancelIdleCallback" in window)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).cancelIdleCallback(id);
+        else clearTimeout(id);
+      };
+    }
   }, []);
 
   const openBanner = () => setIsBannerOpen(true);

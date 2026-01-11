@@ -127,7 +127,7 @@ export function Video({
         fill
         sizes="100vw"
         priority={priority}
-        className={`absolute inset-0 ${
+        className={`absolute inset-0 w-full h-screen ${
           ready ? "z-0" : "z-10"
         }`}
         style={{ objectFit: "cover", objectPosition: "center" }}

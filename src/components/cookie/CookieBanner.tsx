@@ -5,25 +5,19 @@ import { useConsent } from "src/app/context/ConsentContext";
 
 export function CookieBanner() {
   const {
-    consent,
     setDenied,
     setGranted,
+    isBannerOpen,
     closeBanner,
     openBanner,
-    isBannerOpen,
   } = useConsent();
-  const hasChoice = consent === "denied" || consent === "granted";
-
-  const accept = () => {
-    document.documentElement.dataset.consent = "granted";
-    setGranted();
-    closeBanner();
-  };
 
   const reject = () => {
-    document.documentElement.dataset.consent = "denied";
     setDenied();
-    closeBanner();
+  };
+
+  const accept = () => {
+    setGranted();
   };
 
   return (
@@ -33,15 +27,13 @@ export function CookieBanner() {
           <div className="flex items-start justify-between gap-3">
             <div className="text-base font-semibold">Cookies</div>
 
-            {hasChoice && (
-              <button
-                type="button"
-                onClick={closeBanner}
-                className="text-xs opacity-70 hover:opacity-100 cursor-pointer"
-              >
-                Close
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={closeBanner}
+              className="text-xs opacity-70 hover:opacity-100 cursor-pointer"
+            >
+              Close
+            </button>
           </div>
 
           <div>

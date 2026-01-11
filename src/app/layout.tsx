@@ -12,7 +12,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CookieBanner } from "src/components/cookie/CookieBanner";
 import { AnalyticsLoader } from "src/components/analitics/AnalyticsLoader";
 import { ConsentProvider } from "./context/ConsentContext";
-import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,31 +37,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <Script
-          id="consent-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-(function() {
-  try {
-    var m = document.cookie.match(/(?:^|; )analytics_consent=([^;]+)/);
-    var v = m && m[1];
-    document.documentElement.dataset.consent =
-      (v === 'granted' || v === 'denied') ? v : 'unset';
-  } catch(e) {}
-})();
-            `,
-          }}
-        />
-      </head>
       <body className={`${inter.variable} antialiased`}>
         <Header data={header} settings={settings} />
         <ConsentProvider>
           <LenisProvider>
             {" "}
             <CookieBanner />
-            
             <AnalyticsLoader />
             {children}
           </LenisProvider>

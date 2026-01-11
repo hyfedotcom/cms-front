@@ -19,7 +19,7 @@ export function parseConsentFromCookieString(
   return "unknown";
 }
 
-export function setConsentCookie(value: "granted" | "denied", days = 180) {
+export function setConsentCookie(value: "granted" | "denied", days = 365) {
   if (typeof document === "undefined") return;
 
   const expires = new Date();
