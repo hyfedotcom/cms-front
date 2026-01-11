@@ -17,6 +17,11 @@
   --color-brand-light: #12d7be;
 }
 
+html[data-consent="granted"] .cookie-banner,
+html[data-consent="denied"] .cookie-banner {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
   overscroll-behavior-x: none;
