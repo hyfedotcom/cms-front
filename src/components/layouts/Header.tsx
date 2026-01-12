@@ -49,7 +49,7 @@ export function Header({
             alt="Logo of CoughMonitor Suite"
             width={logo_header?.width ?? 100}
             height={logo_header?.height ?? 60}
-            priority
+            loading="lazy"
             className="h-8 md:h-12 w-auto"
           />
         </Link>

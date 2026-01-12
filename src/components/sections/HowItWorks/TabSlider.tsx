@@ -3,38 +3,18 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "../../../lib/motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { howItWorksCard } from "src/lib/types/sections/howItWorks";
 
 export function TabSlider({ card }: { card: howItWorksCard[] }) {
   const [activ, setActiv] = useState(0);
   const active = card[activ];
 
-  const nextCard = card.length ? card[(activ + 1) % card.length] : undefined;
-  const prevCard = card.length
-    ? card[(activ - 1 + card.length) % card.length]
-    : undefined;
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (card.length < 2) return;
-
-    const urls = [nextCard?.media?.url, prevCard?.media?.url].filter(
-      Boolean
-    ) as string[];
-
-    urls.forEach((url) => {
-      const image = new window.Image();
-      image.decoding = "async";
-      image.src = url;
-    });
-  }, [nextCard, prevCard, card.length]);
-
-  // const preload = (url: string) => {
-  //   if (!url || url === "") return;
-  //   const img = new window.Image();
-  //   img.src = url;
-  // };
+  const preload = (url: string) => {
+    if (!url || url === "") return;
+    const img = new window.Image();
+    img.src = url;
+  };
 
   return (
     <div className="flex gap-5">
@@ -44,7 +24,7 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
             <div
               key={index}
               onClick={() => setActiv(index)}
-              // onMouseEnter={() => preload(c.media?.url || "")}
+              onMouseEnter={() => preload(c.media?.url || "")}
               className={clsx(
                 "group md:max-w-[586px] p-4 md:px-5 rounded-[28px] cursor-pointer transition-all duration-400",
                 index === activ

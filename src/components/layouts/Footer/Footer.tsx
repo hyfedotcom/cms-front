@@ -27,6 +27,7 @@ export function Footer({
                 alt="Logo of CoughMonitor Suite"
                 width={logo_footer?.width ?? 200}
                 height={logo_footer?.height ?? 70}
+                loading="lazy"
               />
             </a>
 
