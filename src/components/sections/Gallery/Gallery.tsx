@@ -62,7 +62,6 @@ export function Gallery({ data }: { data: GalleryData }) {
               fill
               className="object-cover hover:scale-115 transition-scale duration-250"
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 600px"
-              priority={i === 0}
             />
           </motion.div>
         ))}

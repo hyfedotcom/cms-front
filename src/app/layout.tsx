@@ -17,7 +17,11 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
+
+export const dynamic = "force-static";
+export const revalidate = false;
 
 export async function generateMetadata(): Promise<Metadata> {
   const aoi = new GetHomePages("cough-monitor-suite", "home", false);
@@ -31,9 +35,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const api = new GetSiteSettings("cough-monitor-suite");
-  const header = await api.header();
-  const settings = await api.settings();
-  const footer = await api.footer();
+  const [header, settings, footer] = await Promise.all([
+    api.header(),
+    api.settings(),
+    api.footer(),
+  ]);
 
   return (
     <html lang="en" suppressHydrationWarning>

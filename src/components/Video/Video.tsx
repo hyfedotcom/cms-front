@@ -1,134 +1,146 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 type MediaData = {
-  video?: { url: string };
-  placeholder?: { url: string };
+  video?: { url: string; type?: string }; // type опционально, default video/mp4
+  placeholder?: { url: string; alt?: string };
 };
-
-function pickByMediaQuery(pc: string | undefined, mobile: string | undefined) {
-  if (typeof window === "undefined") return pc ?? mobile; // SSR fallback
-  return window.matchMedia("(min-width: 768px)").matches
-    ? pc ?? mobile
-    : mobile ?? pc;
-}
 
 export function Video({
   videoMobile,
   videoPc,
-  priority = false,
+  priorityImage = true, // для hero обычно true (быстро показать фон)
+  start = "in-view", // "immediate" | "in-view" | "never"
+  posterOnlyOnSlowNetwork = true,
 }: {
   videoMobile: MediaData;
   videoPc: MediaData;
-  priority?: boolean;
+  priorityImage?: boolean;
+  start?: "immediate" | "in-view" | "never";
+  posterOnlyOnSlowNetwork?: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  const [src, setSrc] = useState<string | undefined>(() =>
-    pickByMediaQuery(videoPc.video?.url, videoMobile.video?.url)
-  );
-
+  const [canLoadVideo, setCanLoadVideo] = useState(start === "immediate");
   const [ready, setReady] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(priority);
   const [giveUp, setGiveUp] = useState(false);
 
-  // Обновляем src только когда реально поменялся breakpoint (768)
+  // 1) Не грузим видео на save-data/2g (если включено)
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const onChange = () =>
-      setSrc(pickByMediaQuery(videoPc.video?.url, videoMobile.video?.url));
+    if (!posterOnlyOnSlowNetwork) return;
 
-    mq.addEventListener?.("change", onChange);
-  
-    mq.addListener?.(onChange);
-
-    return () => {
-      mq.removeEventListener?.("change", onChange);
-
-      mq.removeListener?.(onChange);
-    };
-  }, [videoPc.video?.url, videoMobile.video?.url]);
-
-  // медленные сети -> постер
-  useEffect(() => {
-    if (priority) return;
     const nav = navigator as Navigator & {
       connection?: { effectiveType?: string; saveData?: boolean };
     };
     const c = nav.connection;
     const slow = /(^|-)2g/.test(c?.effectiveType ?? "");
     if (c?.saveData || slow) setGiveUp(true);
-  }, [priority]);
+  }, [posterOnlyOnSlowNetwork]);
 
-  // Назначаем src ТОЛЬКО когда решили грузить
+  // 2) Ленивый старт видео по IntersectionObserver (не трогаем SSR/гидрацию)
+  useEffect(() => {
+    if (start !== "in-view") return;
+    if (giveUp) return;
+
+    const el = videoRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setCanLoadVideo(true);
+          io.disconnect();
+        }
+      },
+      { root: null, threshold: 0.01 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [start, giveUp]);
+
+  // 3) Когда можно — запускаем загрузку/плей (без setAttribute/src вручную)
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
 
-    if (!shouldLoad || giveUp || !src) {
-      // убираем src, чтобы не было сети
-      if (el.getAttribute("src")) {
-        el.removeAttribute("src");
-        el.load();
-      }
+    if (!canLoadVideo || giveUp || start === "never") {
+      // важно: не трогаем src/source — браузер сам решит, просто не грузим активно
       return;
     }
 
-    // назначаем src один раз (или при смене breakpoint)
-    if (el.getAttribute("src") !== src) {
-      setReady(false);
-      el.setAttribute("src", src);
-      el.load(); // только здесь
-    }
-  }, [shouldLoad, giveUp, src]);
+    // просим браузер начать (sources уже в DOM)
+    // preload=metadata + play() после allow
+    const play = async () => {
+      try {
+        await el.play();
+      } catch {
+        // autoplay мог быть заблокирован — ок, останется постер/превью
+      }
+    };
 
-  // simple lazy start: если priority — сразу, если нет — запускай когда хочешь (например, из IO)
-  // здесь оставлю простой вариант: грузим сразу если priority, иначе через 150мс после маунта
-  useEffect(() => {
-    if (priority) return;
-    const t = setTimeout(() => setShouldLoad(true), 150);
-    return () => clearTimeout(t);
-  }, [priority]);
+    // load() безопасно, но не обязательно — пусть браузер решит
+    el.load();
+    play();
+  }, [canLoadVideo, giveUp, start]);
 
-  // таймаут “не завелось”
+  // 4) Фоллбек “не завелось” — оставляем превью
   useEffect(() => {
-    if (!shouldLoad || ready || giveUp) return;
-    const t = setTimeout(() => setGiveUp(true), 2500);
-    return () => clearTimeout(t);
-  }, [shouldLoad, ready, giveUp]);
+    if (!canLoadVideo || ready || giveUp) return;
+    const t = window.setTimeout(() => setGiveUp(true), 2500);
+    return () => window.clearTimeout(t);
+  }, [canLoadVideo, ready, giveUp]);
 
   const preview =
     videoMobile.placeholder?.url ||
     videoPc.placeholder?.url ||
     "/images/preview.png";
 
+  const alt =
+    videoMobile.placeholder?.alt || videoPc.placeholder?.alt || "Background";
+
+  const pcSrc = videoPc.video?.url;
+  const mobSrc = videoMobile.video?.url;
+
   return (
     <div className="relative w-full h-full overflow-hidden">
+      {/* Видео под превью. Включаем opacity только когда ready */}
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 z-1 ${
-          ready ? "opacity-100 " : "opacity-0 "
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+          ready && !giveUp ? "opacity-100 z-10" : "opacity-0"
         }`}
-        preload={priority ? "metadata" : "none"}
-        autoPlay={shouldLoad && !giveUp}
         muted
         playsInline
         loop
+        preload="metadata"
+        // автостарт: только если разрешили
+        autoPlay={canLoadVideo && !giveUp && start !== "never"}
         disableRemotePlayback
         onCanPlay={() => setReady(true)}
         onLoadedData={() => setReady(true)}
-      />
+      >
+        {/* Браузер сам выбирает source по media — без JS и без гидрации */}
+        {pcSrc ? (
+          <source
+            src={pcSrc}
+            media="(min-width: 768px)"
+            type={videoPc.video?.type ?? "video/mp4"}
+          />
+        ) : null}
+        {mobSrc ? (
+          <source src={mobSrc} type={videoMobile.video?.type ?? "video/mp4"} />
+        ) : null}
+      </video>
 
+      {/* Превью: то, что пользователь видит сразу */}
       <Image
         src={preview}
-        alt="preview"
+        alt={alt}
         fill
-        sizes="90vw"
-        priority={priority}
-        className={`absolute inset-0 w-full h-screen z-0`}
-        style={{ objectFit: "cover", objectPosition: "center" }}
+        priority={priorityImage}
+        className="absolute inset-0 w-full h-full object-cover"
       />
     </div>
   );

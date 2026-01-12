@@ -10,7 +10,6 @@ import { CtaSection } from "src/components/sections/CtaSection/CtaSection";
 import { HeroPlug } from "src/components/sections/Hero/HeroPlug";
 import { SectionWrapper } from "src/components/Animation/SectionWrapper";
 import { GetHomePages } from "src/lib/api/getHome";
-// import { draftMode } from "next/headers";
 import { Gallery } from "src/components/sections/Gallery/Gallery";
 import { JsonLd } from "src/components/seo/JsonLd";
 
@@ -18,8 +17,6 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 export default async function Home() {
-  // const { isEnabled: isDraftMode } = await draftMode();
-  // console.log(isDraftMode);
   const api = new GetHomePages("cough-monitor-suite", "home");
   const hero = await api.getHero();
   const workflow = await api.getWorkflow();

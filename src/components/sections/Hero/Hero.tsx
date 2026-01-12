@@ -45,7 +45,7 @@ export function Hero({ data }: { data: HeroData }) {
 
       <div className="absolute inset-0 z-0  ">
         {media_mobile?.video && media_pc?.video && (
-          <Video videoPc={media_pc} videoMobile={media_mobile} priority />
+          <Video videoPc={media_pc} videoMobile={media_mobile} priorityImage  />
         )}
       </div>
 

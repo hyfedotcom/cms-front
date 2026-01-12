@@ -62,10 +62,7 @@ export function Header({
   return (
     <header
       className={`fixed top-0 ${
-        !ready
-          ? "opacity-0"
-     
-          : "opacity-100 "
+        !ready ? "opacity-0" : "opacity-100 "
       } left-0 right-0 z-1001 w-full ${
         isTop ? "bg-white/10" : "bg-white/40"
       } transform-all duration-500 backdrop-blur-[40px] shadow-sm`}
@@ -75,9 +72,7 @@ export function Header({
         <Link
           href="/"
           className={`transition-opacity duration-600 delay-100 ${
-            !ready
-              ? "opacity-0"
-              : "opacity-100"
+            !ready ? "opacity-0" : "opacity-100"
           } items-center z-2`}
         >
           <Image
@@ -127,7 +122,7 @@ export function Header({
             href={cta.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`transition-opacity duration-600 delay-400 ${
+            className={` duration-400  transition-all  ${
               !ready
                 ? "opacity-0"
                 : widthOfMobileMenu
@@ -135,9 +130,9 @@ export function Header({
                 : "inline-block relative "
             }  ${
               isTop && path === "/"
-                ? "bg-white text-primary"
-                : "bg-primary text-white"
-            }  px-6 py-3 text-[18px] rounded-full font-bold uppercase hover:opacity-85 transition`}
+                ? "bg-white text-primary hover:bg-primary hover:text-white "
+                : "bg-primary text-white hover:bg-white hover:text-primary border border-activ"
+            }  px-6 py-3 text-[18px] rounded-full font-bold uppercase `}
           >
             {cta.label}
           </a>
