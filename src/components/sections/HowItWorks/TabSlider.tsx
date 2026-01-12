@@ -27,7 +27,9 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
               <div className="flex items-center gap-3 md:gap-5">
                 <span
                   className={`w-13 min-w-13 h-13 min-h-13 transition-colors duration-200 ${
-                    index === activ ? "bg-white" : "bg-white md:bg-gray-50 group-hover:bg-white"
+                    index === activ
+                      ? "bg-white"
+                      : "bg-white md:bg-gray-50 group-hover:bg-white"
                   } rounded-full flex items-center justify-center`}
                 >
                   <Image
@@ -73,8 +75,7 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
                       alt={c.media.alt || `Slide ${index + 1}`}
                       fill
                       className="object-cover"
-                      priority={index === 0} // первая картинка — приоритетная
-                      loading={index === 0 ? undefined : "lazy"} // остальные ленивые
+                      loading="lazy"
                       sizes=" 90vw, 80vw"
                     />
                   </motion.div>
@@ -99,8 +100,7 @@ export function TabSlider({ card }: { card: howItWorksCard[] }) {
                     src={image.media?.url}
                     alt={image.media?.alt || ""}
                     fill
-                    priority={index === 0} // первая картинка — приоритетная
-                    loading={index === 0 ? undefined : "lazy"} // остальные ленивые
+                    loading="lazy"
                     sizes=" 70vw, 50vw"
                     className="object-cover"
                   />

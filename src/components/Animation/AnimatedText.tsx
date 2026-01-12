@@ -16,8 +16,8 @@ export function AnimatedText({
   return (
     <motion.div
       variants={container}
-      initial="hidden"
-      whileInView="show"
+      initial=""
+      whileInView=""
       viewport={{ once: true, amount: 0.4 }}
       className={` ${className}`}
       style={style}
