@@ -108,8 +108,8 @@ export function Video({
     <div className="relative w-full h-full overflow-hidden">
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          ready ? "opacity-100 z-10" : "opacity-0 z-0"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 z-1 ${
+          ready ? "opacity-100 " : "opacity-0 "
         }`}
         preload={priority ? "metadata" : "none"}
         autoPlay={shouldLoad && !giveUp}
@@ -127,9 +127,7 @@ export function Video({
         fill
         sizes="90vw"
         priority={priority}
-        className={`absolute inset-0 w-full h-screen ${
-          ready ? "z-0" : "z-10"
-        }`}
+        className={`absolute inset-0 w-full h-screen z-0`}
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
     </div>

@@ -77,3 +77,20 @@ h4 {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+.sectionWrap {
+  --w: 92;
+  --yM: 55;
+  --yD: 60;
+
+  width: 100%;
+  transform: translate3d(0, calc(var(--yM) * 1px), 0);
+  will-change: transform, width;
+}
+
+@media (min-width: 768px) {
+  .sectionWrap {
+    width: calc(var(--w) * 1%);
+    transform: translate3d(0, calc(var(--yD) * 1px), 0);
+  }
+}
