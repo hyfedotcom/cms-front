@@ -28,7 +28,7 @@ export class ApiClient {
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${this.TOKEN}` },
       next,
-      cache: opts.preview ? "no-store" : "force-cache",
+      cache: "force-cache",
     });
 
     if (!res.ok) {

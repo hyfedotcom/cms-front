@@ -8,9 +8,20 @@ type MediaData = {
   placeholder?: { url: string; alt?: string };
 };
 
-function isDesktop() {
-  if (typeof window === "undefined") return true;
-  return window.matchMedia("(min-width: 768px)").matches;
+function useIsDesktop(breakpoint = 768) {
+  const [isDesk, setIsDesk] = useState(false); // важно: одинаково на SSR и на первом client render
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(min-width: ${breakpoint}px)`);
+
+    const onChange = () => setIsDesk(mq.matches);
+    onChange(); // выставляем после mount
+
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, [breakpoint]);
+
+  return isDesk;
 }
 
 export function Video({
@@ -25,23 +36,21 @@ export function Video({
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [play, setPlay] = useState(false);
+  const isDesk = useIsDesktop();
 
-  const posterSrc = useMemo(
-    () =>
-      (isDesktop() ? videoPc.placeholder?.url : videoMobile.placeholder?.url) ??
-      videoPc.placeholder?.url ??
-      videoMobile.placeholder?.url ??
-      "/images/preview.png",
-    [videoMobile.placeholder?.url, videoPc.placeholder?.url]
-  );
+  const posterSrc = useMemo(() => {
+    const mobile = videoMobile.placeholder?.url;
+    const pc = videoPc.placeholder?.url;
+    return (isDesk ? pc : mobile) ?? pc ?? mobile ?? "/images/preview.png";
+  }, [isDesk, videoMobile.placeholder?.url, videoPc.placeholder?.url]);
 
   const videoSrc = useMemo(() => {
-    const pick = isDesktop() ? videoPc.video?.url : videoMobile.video?.url;
-    return pick ?? videoPc.video?.url ?? videoMobile.video?.url;
-  }, [videoPc, videoMobile]);
+    const mobile = videoMobile.video?.url;
+    const pc = videoPc.video?.url;
+    return (isDesk ? pc : mobile) ?? pc ?? mobile;
+  }, [isDesk, videoMobile.video?.url, videoPc.video?.url]);
 
   useEffect(() => {
-    // можно мягче: requestIdleCallback, но setTimeout достаточно
     const t = setTimeout(() => setPlay(true), 600);
     return () => clearTimeout(t);
   }, []);

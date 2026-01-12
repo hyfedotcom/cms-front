@@ -40,10 +40,10 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
     [0, 0.7],
     width >= 768 ? ["50px", "0px"] : ["0px", "0px"]
   );
-  const opacity = useTransform(
+  const scaleText = useTransform(
     scrollYProgress,
-    [0.4, 0.7],
-    width >= 768 ? ["0%", "100%"] : ["100%", "100%"]
+    [0, 0.7],
+    width >= 768 ? ["60%", "100%"] : ["100%", "100%"]
   );
 
   return (
@@ -63,26 +63,26 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
         >
           <div className="absolute inset-0 z-11 bg-gradient-to-b from-[#184242]/60 to-[#184242]/60"></div>
 
-          <AnimatedText className="max-w-[750px] px-4 mx-auto text-center space-y-4 md:space-y-6 flex flex-col items-center justify-center h-full relative z-100">
+          <motion.div
+            style={{ scale: scaleText }}
+            className="max-w-[750px] px-4 mx-auto text-center space-y-4 md:space-y-6 flex flex-col items-center justify-center h-full relative z-100"
+          >
             {sub_heading && (
               <motion.div
-                style={{ opacity: opacity }}
+                style={{ scale: scaleText }}
                 className="body-large text-white text-balance"
               >
                 <SubTitle label={sub_heading} />
               </motion.div>
             )}
             {heading && (
-              <motion.h2
-                style={{ opacity: opacity }}
-                className="h2-large text-white text-balance !font-semibold"
-              >
+              <motion.h2 className="h2-large text-white text-balance !font-semibold">
                 {heading}
               </motion.h2>
             )}
 
             {content?.length != 0 && (
-              <motion.div className="space-y-4" style={{ opacity: opacity }}>
+              <motion.div className="space-y-4">
                 {content?.map((c, i) => (
                   <p
                     key={i}
@@ -94,16 +94,13 @@ export function CtaSection({ data }: { data: CtaSectionData }) {
               </motion.div>
             )}
             {cta && (
-              <motion.div
-                style={{ opacity: opacity }}
-                className="space-x-5 mt-3"
-              >
+              <motion.div className="space-x-5 mt-3">
                 {cta.map((c, i) => (
                   <Button key={i} data={c} />
                 ))}
               </motion.div>
             )}
-          </AnimatedText>
+          </motion.div>
           <div className="absolute inset-0">
             {video_pc?.video && video_mobile?.video && (
               <Video
